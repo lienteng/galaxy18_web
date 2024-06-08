@@ -1,4 +1,4 @@
-<!-- src/views/home/Home.vue -->
+<!-- src/views/home/Home.vue
 <template>
     <div class="home">
       <h1>Home Page</h1>
@@ -78,6 +78,30 @@
 
   }
 });
+  </script>
+  
+  <style scoped>
+  /* Add your styles here */
+  </style>
+  
+
+   -->
+
+
+
+   <template>
+    <Dashboard />
+  </template>
+  
+  <script lang="ts">
+  import { defineComponent } from 'vue';
+  import Dashboard from '@/components/Dashboard.vue';
+  
+  export default defineComponent({
+    components: {
+      Dashboard,
+    },
+  });
   </script>
   
   <style scoped>
