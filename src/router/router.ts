@@ -1,9 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/home/Home.vue';
+import Products from '@/views/products/Products.vue';
 import Login from '@/views/auth/Login.vue';
 import { useAuthStore } from '@/stores/user';
+import Dashboard from '@/components/Dashboard.vue';
+import ProfilePage from '@/views/profile/ProfilePage.vue';
 
 const routes = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
   {
     path: '/',
     name: 'Home',
@@ -11,40 +19,32 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-  },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('@/views/components/Dashboard.vue'),
+    path: '/products',
+    name: 'Products',
+    component: Products,
     meta: { requiresAuth: true },
   },
+  { path: '/profile', name: 'Profile', component: ProfilePage },
   // {
-  //   path: '/profile',
-  //   name: 'Profile',
-  //   component: () => import('@/views/dashboard/Profile.vue'),
+  //   path: '/',
+  //   component: Home,
   //   meta: { requiresAuth: true },
-  // },
-  // {
-  //   path: '/users',
-  //   name: 'Users',
-  //   component: () => import('@/views/dashboard/Users.vue'),
-  //   meta: { requiresAuth: true },
-  // },
-  // {
-  //   path: '/posts',
-  //   name: 'Posts',
-  //   component: () => import('@/views/dashboard/Posts.vue'),
-  //   meta: { requiresAuth: true },
-  // },
-  // {
-  //   path: '/comments',
-  //   name: 'Comments',
-  //   component: () => import('@/views/dashboard/Comments.vue'),
-  //   meta: { requiresAuth: true },
-  // },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: '/dashboard',
+  //       component: Dashboard,
+  //       meta: { requiresAuth: true },
+  //     },
+  //     {
+  //       path: 'products',
+  //       name: '/Products',
+  //       component: Products,
+  //       meta: { requiresAuth: true },
+  //     },
+     
+  //   ]
+  // }
 ];
 
 const router = createRouter({
@@ -54,12 +54,14 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore();
-  if (to.meta.requiresAuth && !authStore.token) {
+  if (to.matched.some(record => record.meta.requiresAuth) && !authStore.token) {
     next({ name: 'Login' });
   } else {
     next();
   }
 });
 
-
 export default router;
+
+
+

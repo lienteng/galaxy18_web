@@ -29,10 +29,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/user';
 import Modal from '@/components/Modal.vue';
-import { useRouter } from 'vue-router';
-
 
 export default defineComponent({
   name: 'Login',
@@ -50,13 +49,9 @@ export default defineComponent({
     const handleLogin = async () => {
       await authStore.login(login.value, password.value);
       if (authStore.error) {
-        console.log("==================logn failed====================="),
-        console.log(authStore.error);
-
         error.value = authStore.error;
         showModal.value = true;
       } else {
-        console.log("==================logn successfully====================="),
         error.value = '';
         showModal.value = false;
         router.push({ name: 'Home' });
@@ -76,5 +71,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+/* Add your styles here */
 </style>

@@ -89,22 +89,21 @@
 
 
 
-   <template>
-    <Dashboard />
-  </template>
+<template>
+<Dashboard />
+</template>
   
-  <script lang="ts">
-  import { defineComponent } from 'vue';
-  import Dashboard from '@/components/Dashboard.vue';
-  
-  export default defineComponent({
-    components: {
-      Dashboard,
-    },
-  });
-  </script>
+<script lang="ts">
+import { defineComponent } from "vue";
+import Dashboard from "@/components/Dashboard.vue";
+
+export default defineComponent({
+  components: {
+    Dashboard,
+  },
+});
+</script>
   
   <style scoped>
-  /* Add your styles here */
-  </style>
+</style>
   

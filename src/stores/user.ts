@@ -1,20 +1,13 @@
-
+// useAuthStore.ts
 import { defineStore } from 'pinia';
-import { useRouter } from 'vue-router';
-import { API_ENDPOINT } from '@/api/api'; 
-import { setUser, setToken, removeUser, removeToken } from '@/utils/localStorageUtil'; 
-
-interface AuthState {
-  token: string | null;
-  error: string | null;
-  user: any;
-}
+import { API_ENDPOINT } from '@/api/api';
+import { AuthState, setUser, setToken, removeUser, removeToken } from '../utils/localStorageUtil';
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    token: null,
+    token: localStorage.getItem('token'),
     error: null,
-    user: null,
+    user: JSON.parse(localStorage.getItem('user') || 'null'),
   }),
   actions: {
     async login(username: string, password: string) {
@@ -30,17 +23,11 @@ export const useAuthStore = defineStore('auth', {
         });
         const data = await response.json();
         if (response.ok) {
-          console.log(data);
           this.user = data;
           this.token = data.token;
           this.error = null;
           setUser(this.user);
-          if (this.token !== null) {
-            setToken(this.token);
-          }
-
-          // const router = useRouter();
-          // router.push({ name: 'Home' });
+          setToken(this.token!);
         } else {
           this.token = null;
           this.error = data.message || 'Login failed';
@@ -53,10 +40,8 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.token = null;
       this.user = null;
-      removeUser(); 
-      removeToken(); 
-      const router = useRouter();
-      router.push({ name: 'Login' });
+      removeUser();
+      removeToken();
     },
   },
 });
