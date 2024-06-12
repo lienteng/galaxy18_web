@@ -1,6 +1,15 @@
 <template>
   <div class="p-4">
     <h1 class="text-2xl font-bold mb-4">Products</h1>
+    <div class="mb-4">
+      <label for="sort" class="block text-sm font-medium text-gray-700">Sort by:</label>
+      <select id="sort" @change="sortProducts($event)" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+        <option value="title-asc">Title (A-Z)</option>
+        <option value="title-desc">Title (Z-A)</option>
+        <option value="price-asc">Price (Low to High)</option>
+        <option value="price-desc">Price (High to Low)</option>
+      </select>
+    </div>
     <div v-if="loading" class="text-center">Loading...</div>
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div v-for="product in products" :key="product.id" class="bg-white p-4 shadow-md rounded-lg">
@@ -20,7 +29,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, watch } from 'vue';
 import { useProductsStore } from '@/stores/products';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'Products',
@@ -43,9 +52,16 @@ export default defineComponent({
 
     watch(() => route.query.q, fetchProductsBasedOnRoute);
 
+    const sortProducts = (event: Event) => {
+      const value = (event.target as HTMLSelectElement).value;
+      const [sortBy, order] = value.split('-');
+      productsStore.sortProducts(sortBy, order);
+    };
+
     return {
       products: productsStore.products,
       loading: productsStore.loading,
+      sortProducts,
     };
   },
 });

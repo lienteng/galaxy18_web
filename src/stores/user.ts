@@ -1,4 +1,3 @@
-// useAuthStore.ts
 import { defineStore } from 'pinia';
 import { API_ENDPOINT } from '@/api/api';
 import { AuthState, setUser, setToken, removeUser, removeToken } from '../utils/localStorageUtil';

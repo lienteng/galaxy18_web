@@ -1,10 +1,13 @@
-// src/models/productInterfaces.ts
 export interface Product {
   id: number;
-  name: string;
+  title: string;
   price: number;
-  description: string;
-  imageUrl: string;
+  description?: string;
+  thumbnail?: string;
+  category?: string;
+  brand?: string;
+  stock?: number;
+  rating?: number;
 }
 
 export interface ProductsState {
